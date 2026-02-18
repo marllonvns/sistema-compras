@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <header>
+      <h1>COMPRAS DE MATERIAIS</h1>
+      <img src="" alt="" />
+    </header>
+
+  <a href="{{ url_for('login') }}">
+    <button type="button">Área do Administrador</button>
+  </a>
+  
+    <form method="post">
+      <label for="">Nome:<input type="text" name="nome"></label>
+        
+      <label for="">Setor: <input type="text" name="setor"></label>
+        
+      <label for="">Discrição do Produto: <input type="text" name="produto"></label>
+        
+      <label for="">Quantidade:<input type="number" name="quantidade"></label>
+        
+      <button type="submit">Enviar</button>
+    </form>
+  </body>
+  <style>
+    form{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    input{
+        width: 400px;
+    }
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 47vw;
+    }
+    
+    label{
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+  </style>
+  
+</html>

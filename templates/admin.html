@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <h1>Dados das Solicitações</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Setor</th>
+          <th>Produto</th>
+          <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for s in solicitacoes %}
+        <tr>
+          <td>{{ s.nome }}</td>
+          <td>{{ s.setor }}</td>
+          <td>{{ s.produto }}</td>
+          <td>{{ s.quantidade }}</td>
+        
+            <td>
+              <a href="/excluir/{{ s.id }}">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
