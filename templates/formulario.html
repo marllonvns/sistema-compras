@@ -1,57 +1,179 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-  </head>
-  <body>
-    <header>
-      <h1>COMPRAS DE MATERIAIS</h1>
-      <img src="" alt="" />
-    </header>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Solicitação de Envio</title>
 
-  <a href="{{ url_for('login') }}">
-    <button type="button">Área do Administrador</button>
-  </a>
-  
-    <form method="post">
-      <label for="">Nome:<input type="text" name="nome"></label>
-        
-      <label for="">Setor: <input type="text" name="setor"></label>
-        
-      <label for="">Discrição do Produto: <input type="text" name="produto"></label>
-        
-      <label for="">Quantidade:<input type="number" name="quantidade"></label>
-        
-      <button type="submit">Enviar</button>
-    </form>
-  </body>
-  <style>
-    form{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    input{
-        width: 400px;
-    }
-    body{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 47vw;
-    }
-    
-    label{
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-    }
+body {
+    background: #f5f6fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-  </style>
-  
+/* CARD */
+.container {
+    width: 420px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+/* TOPO */
+.icon {
+    width: 60px;
+    height: 60px;
+    background: #6c63ff;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    color: white;
+    font-size: 24px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* FORM */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* INPUTS */
+input, select, textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    background: #f9f9fb;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #6c63ff;
+    background: white;
+}
+
+textarea {
+    height: 140px;
+    resize: none;
+}
+
+/* BOTÃO */
+button {
+    width: 100%;
+    padding: 18px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg,#8b84ff,#6c63ff);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.botaoadm {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  padding: 18px;
+  border-radius: 12px;
+  background-color: rgb(34, 31, 31);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="icon">📦</div>
+
+<h1>Solicitação de Envio</h1>
+<p class="subtitle">
+Preencha os dados abaixo para solicitar o envio do produto ao setor desejado.
+</p>
+
+<form method="POST">
+
+{% if erro %}
+<p style="color:red">{{ erro }}</p>
+{% endif %}
+
+<div class="form-group">
+<label>Nome</label>
+<input type="text" name="nome" placeholder="Seu nome completo">
+</div>
+
+<div class="form-group">
+<label>Setor</label>
+<select name="setor">
+<option value="">Selecione o setor</option>
+<option>Financeiro</option>
+<option>Logística</option>
+<option>TI</option>
+<option>Compras</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Quantidade</label>
+<input type="number" name="quantidade" placeholder="Ex: 10">
+</div>
+
+<div class="form-group">
+<label>Descrição do Produto</label>
+<textarea name="produto"></textarea>
+</div>
+
+<button type="submit">Enviar Formulário</button>
+
+<a href="{{ url_for('login') }}" class="botaoadm">
+  Área do Administrador
+</a>
+
+</form>
+
+</div>
+
+</body>
 </html>

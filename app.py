@@ -7,20 +7,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///solicitacoes.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "chave_super_secreta"
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        usuario = request.form["usuario"]
-        senha = request.form["senha"]
-
-        if usuario == USUARIO_ADMIN and senha == SENHA_ADMIN:
-            session["logado"] = True
-            return redirect(url_for("admin"))
-        
-        return render_template("login.html", erro="Usuário ou senha inválidos.")
-    
-    return render_template("login.html")
-
 db = SQLAlchemy(app)
 
 USUARIO_ADMIN = "admin"
@@ -33,20 +19,31 @@ class Solicitacao(db.Model):
     produto = db.Column(db.String(200), nullable=False)
     quantidade = db.Column(db.Integer, nullable=False)
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        usuario = request.form.get("usuario")
+        senha = request.form.get("senha")
+
+        if usuario == USUARIO_ADMIN and senha == SENHA_ADMIN:
+            session["logado"] = True
+            return redirect(url_for("admin"))
+
+        return render_template("login.html", erro="Usuário ou senha inválidos.")
+
+    return render_template("login.html")
 
 @app.route("/", methods=["GET", "POST"])
 def formulario():
     if request.method == "POST":
-        nome = request.form["nome"]
-        setor = request.form["setor"]
-        produto = request.form["produto"]
-        quantidade = request.form["quantidade"]
-         
+
+        nome = request.form.get("nome")
+        setor = request.form.get("setor")
+        produto = request.form.get("produto")
+        quantidade = request.form.get("quantidade")
+
         if not nome or not setor or not produto or not quantidade:
-            return render_template(
-                "formulario.html",
-               erro="Preencha todos os campos!"
-            )
+            return render_template("formulario.html", erro="Preencha todos os campos!")
 
         nova = Solicitacao(
             nome=nome,
@@ -66,7 +63,7 @@ def formulario():
 def admin():
     if not session.get("logado"):
         return redirect(url_for("login"))
-    
+
     solicitacoes = Solicitacao.query.all()
     return render_template("admin.html", solicitacoes=solicitacoes)
 
