@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Solicitação Enviada</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background:#f5f6fa;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+h1{
+    color:#2ecc71;
+    margin-bottom:20px;
+}
+
+a{
+    display:inline-block;
+    margin-top:20px;
+    padding:15px 25px;
+    background:#6c63ff;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>✅ Solicitação enviada com sucesso!</h1>
+
+<p>Sua solicitação foi registrada no sistema.</p>
+
+<a href="{{ url_for('formulario') }}">
+Enviar outra solicitação
+</a>
+
+</div>
+
+</body>
+</html>

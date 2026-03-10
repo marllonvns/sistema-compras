@@ -1,37 +1,189 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin</title>
-  </head>
-  <body>
-    <h1>Dados das Solicitações</h1>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Setor</th>
-          <th>Produto</th>
-          <th>Quantidade</th>
-            <th>Ações</th>
-        </tr>
-      </thead>
+<head>
+<meta charset="UTF-8">
+<title>Painel Administrativo</title>
 
-      <tbody>
-        {% for s in solicitacoes %}
-        <tr>
-          <td>{{ s.nome }}</td>
-          <td>{{ s.setor }}</td>
-          <td>{{ s.produto }}</td>
-          <td>{{ s.quantidade }}</td>
-        
-            <td>
-              <a href="/excluir/{{ s.id }}">Excluir</a>
-            </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </body>
+<style>
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f6fb;
+    padding:40px;
+}
+
+/* TOPO */
+
+.topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+h1{
+    font-size:28px;
+}
+
+.logout{
+    background:#333;
+    color:white;
+    padding:10px 20px;
+    text-decoration:none;
+    border-radius:8px;
+}
+
+/* TABELA */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+th{
+    background:#6c63ff;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+tr:hover{
+    background:#f2f2ff;
+}
+
+/* STATUS */
+
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    color:white;
+    font-size:13px;
+}
+
+.pendente{
+    background:#f1c40f;
+}
+
+.aprovado{
+    background:#2ecc71;
+}
+
+.enviado{
+    background:#3498db;
+}
+
+.cancelado{
+    background:#e74c3c;
+}
+
+/* BOTÕES */
+
+.btn{
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+    margin:2px;
+    display:inline-block;
+    color:white;
+}
+
+.aprovar{
+    background:#27ae60;
+}
+
+.enviar{
+    background:#2980b9;
+}
+
+.cancelar{
+    background:#c0392b;
+}
+
+.excluir{
+    background:#333;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+<h1>Painel de Solicitações</h1>
+<a href="{{ url_for('logout') }}" class="logout">Sair</a>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Nome</th>
+<th>Setor</th>
+<th>Produto</th>
+<th>Quantidade</th>
+<th>Data</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for s in solicitacoes %}
+
+<tr>
+
+<td>{{ s.nome }}</td>
+<td>{{ s.setor }}</td>
+<td>{{ s.produto }}</td>
+<td>{{ s.quantidade }}</td>
+<td>{{ s.data.strftime("%d/%m/%Y %H:%M") }}</td>
+<td>
+
+{% if s.status == "Pendente" %}
+<span class="status pendente">{{ s.status }}</span>
+
+{% elif s.status == "Aprovado" %}
+<span class="status aprovado">{{ s.status }}</span>
+
+{% elif s.status == "Enviado" %}
+<span class="status enviado">{{ s.status }}</span>
+
+{% else %}
+<span class="status cancelado">{{ s.status }}</span>
+{% endif %}
+
+</td>
+
+<td>
+
+<a href="/status/{{ s.id }}/Aprovado" class="btn aprovar">Aprovar</a>
+
+<a href="/status/{{ s.id }}/Enviado" class="btn enviar">Enviar</a>
+
+<a href="/status/{{ s.id }}/Cancelado" class="btn cancelar">Cancelar</a>
+
+<a href="/excluir/{{ s.id }}" class="btn excluir">Excluir</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</body>
 </html>
