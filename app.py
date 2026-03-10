@@ -70,13 +70,27 @@ def admin():
     if not session.get("logado"):
         return redirect(url_for("login"))
 
-    solicitacoes = Solicitacao.query.all()
-    return render_template("admin.html", solicitacoes=solicitacoes)
+    pendentes = Solicitacao.query.filter_by(status="Pendente").all()
+    aprovados = Solicitacao.query.filter_by(status="Aprovado").all()
+    recusados = Solicitacao.query.filter_by(status="Recusado").all()
+    atendimento = Solicitacao.query.filter_by(status="Em Atendimento").all()
+    atendidos = Solicitacao.query.filter_by(status="Atendido").all()
+    historico = Solicitacao.query.filter_by(status="Historico").all()
+    
+    return render_template(
+        "admin.html",
+        pendentes=pendentes,
+        aprovados=aprovados,
+        recusados=recusados,
+        atendimento=atendimento,
+        atendidos=atendidos,
+        historico=historico
+    )
 
-@app.route("/excluir/<int:id>")
-def excluir(id):
-    solicitacao = Solicitacao.query.get_or_404(id)
-    db.session.delete(solicitacao)
+@app.route("/status/<int:id>/<novo_status>")
+def mudar_status(id, novo_status):
+    solicitacao = Solicitacao.query.get(id)
+    solicitacao.status = novo_status
     db.session.commit()
     return redirect(url_for("admin"))
 
@@ -99,6 +113,19 @@ def alterar_status(id, novo_status):
 @app.route("/sucesso")
 def sucesso():
     return render_template("sucesso.html")
+
+@app.route("/excluir/<int:id>")
+def excluir(id):
+    if not session.get("logado"):
+        return redirect(url_for("login"))
+
+    solicitacao = Solicitacao.query.get(id)
+
+    if solicitacao:
+        db.session.delete(solicitacao)
+        db.session.commit()
+
+    return redirect(url_for("admin"))
 
 with app.app_context():
     db.create_all()
